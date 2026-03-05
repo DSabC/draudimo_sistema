@@ -8,7 +8,7 @@
         </div>
 
         @if(session('success'))
-            <div class="aler alert-success">{{ session('success') }}</div>
+            <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
         <table class="table table-bordered">
