@@ -30,17 +30,37 @@
 
             <div class="mb-3">
                 <label class="form-label">Telefono nr.</label>
-                <input class="form-control" name="phone" value="{{ old('phone', $owner->phone) }}">
+                <input class="form-control" name="phone" value="{{ old('phone', $owner->phone) }}" required>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">E. paštas</label>
-                <input class="form-control" name="email" value="{{ old('email', $owner->email) }}">
+                <input class="form-control" name="email" value="{{ old('email', $owner->email) }}" required>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Adresas</label>
-                <input class="form-control" name="address" value="{{ old('address', $owner->address) }}">
+                <input class="form-control" name="address" value="{{ old('address', $owner->address) }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Automobiliai</label>
+
+                @foreach($cars as $car)
+                    <div class="form-check">
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            name="cars[]"
+                            value="{{ $car->id }}"
+                            id="car{{ $car->id }}"
+                            {{ in_array($car->id, old('cars', $selectedCars)) ? 'checked' : '' }}
+                        >
+                        <label class="form-check-label" for="car{{ $car->id }}">
+                            {{ $car->brand }} {{ $car->model }} ({{ $car->reg_number }})
+                        </label>
+                    </div>
+                @endforeach
             </div>
 
             <button class="btn btn-primary">Atnaujinti</button>

@@ -1,23 +1,55 @@
 # Draudimo sistema
 
-This is a simple Laravel project for managing car owners.
+Laravel project for managing car owners and cars.
 
+## Features
+
+- Full CRUD for owners
+- Full CRUD for cars
+- One owner can have many cars (`cars.owner_id`)
+- When creating an owner, only unassigned cars are shown
+- When editing an owner, shown cars are:
+  - unassigned cars
+  - cars already assigned to that owner
 
 ## Database
 
-Table: **owners**
+### `owners`
 
-Fields:
-- id
-- name
-- surname
-- phone
-- email
-- address
+- `id`
+- `name`
+- `surname`
+- `phone`
+- `email`
+- `address`
+- `created_at`
+- `updated_at`
+
+### `cars`
+
+- `id`
+- `reg_number`
+- `brand`
+- `model`
+- `owner_id`
+- `created_at`
+- `updated_at`
 
 ## Running the project
 
-1. Install dependencies `composer install` `npm install`
-2. Configure `.env` and set database connection
-3. Run migrations `php artisan migrate`
-4. Start the server `npm run dev` `php artisan serve`
+1. Install dependencies:
+   - `composer install`
+   - `npm install`
+2. Configure `.env` and set database connection.
+3. Run migrations and seed:
+   - `php artisan migrate:fresh --seed`
+4. Start the app:
+   - `php artisan serve`
+   - `npm run dev`
+
+## Routes
+
+- `/` redirects to `/owners`
+- Main resources:
+  - `/owners`
+  - `/cars`

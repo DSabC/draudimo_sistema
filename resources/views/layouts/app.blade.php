@@ -30,7 +30,11 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
+                        <li class="navbar-nav">
+                            <a class="nav-link" href="{{ route('owners.index') }}">Savininkai</a>
 
+                            <a class="nav-link" href="{{ route('cars.index') }}">Automobiliai</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

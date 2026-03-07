@@ -29,21 +29,42 @@
 
             <div class="mb-3">
                 <label class="form-label">Telefono nr.</label>
-                <input class="form-control" name="phone" value="{{ old('phone') }}">
+                <input class="form-control" name="phone" value="{{ old('phone') }}" required>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">E. paštas</label>
-                <input class="form-control" name="email" value="{{ old('email') }}">
+                <input class="form-control" name="email" value="{{ old('email') }}" required>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Adresas</label>
-                <input class="form-control" name="address" value="{{ old('address') }}">
+                <input class="form-control" name="address" value="{{ old('address') }}" required>
             </div>
 
-            <button class="btn btn-primary">Išsaugoti</button>
-            <a href="{{ route('owners.index') }}" class="btn btn-secondary">Atgal</a>
+            <div class="mb-3">
+                <label class="form-label">Automobiliai</label>
+
+                @forelse($cars as $car)
+                    <div class="form-check">
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            name="cars[]"
+                            value="{{ $car->id }}"
+                            id="car{{ $car->id }}"
+                            {{ in_array($car->id, old('cars', [])) ? 'checked' : '' }}
+                        >
+                        <label class="form-check-label" for="car{{ $car->id }}">
+                            {{ $car->brand }} {{ $car->model }} ({{ $car->reg_number }})
+                        </label>
+                    </div>
+                @empty
+                    <div class="text-muted">Nėra automobilių</div>
+                @endforelse
+            </div>
+            <button class="btn btn-primary mt-3">Išsaugoti</button>
+            <a href="{{ route('owners.index') }}" class="btn btn-secondary mt-3">Atgal</a>
         </form>
     </div>
 @endsection

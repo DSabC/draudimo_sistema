@@ -20,6 +20,7 @@
                 <th>Telefono nr.</th>
                 <th>E. paštas</th>
                 <th>Adresas</th>
+                <th>Automobiliai</th>
                 <th>Veiksmai</th>
             </tr>
             </thead>
@@ -34,9 +35,16 @@
                     <td>{{ $owner->email }}</td>
                     <td>{{ $owner->address }}</td>
                     <td>
-                        <a href="{{ route('owners.edit', $owner) }}" class="btn btn-warning">Redaguoti</a>
+                        @foreach($owner->cars as $car)
+                            <div>
+                                {{ $car->brand }} {{ $car->model }} ({{ $car->reg_number }})
+                            </div>
+                        @endforeach
+                    </td>
+                    <td>
+                        <a href="{{ route('owners.edit', $owner) }}" class="btn btn-warning mb-1">Redaguoti</a>
 
-                        <form action="{{ route('owners.destroy', $owner) }}" method="POST" class="d-inline" onsubmit="return confirm('Tikrai ištrinti?')">
+                        <form action="{{ route('owners.destroy', $owner) }}" method="POST" onsubmit="return confirm('Tikrai ištrinti?')">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-danger">Trinti</button>
