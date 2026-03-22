@@ -53,6 +53,9 @@ Laravel project for managing car owners and cars.
 4. Start the app:
    - `php artisan serve`
    - `npm run dev`
+5. Log in with test `admin` user:
+   - email: test@example.com
+   - password: password
 
 ## Routes
 
