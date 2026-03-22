@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container mt-4">
-        <h2>Pridėti naują automobilį:</h2>
+        <h2>{{ __('messages.add_car') }}:</h2>
 
         @if($errors->any())
             <div class="alert alert-danger">
@@ -18,24 +18,24 @@
             @csrf
 
             <div class="mb-3">
-                <label class="form-label">Registracijos numeris</label>
+                <label class="form-label">{{ __('messages.reg_number') }}</label>
                 <input class="form-control" name="reg_number" value="{{ old('reg_number') }}" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Markė</label>
+                <label class="form-label">{{ __('messages.brand') }}</label>
                 <input class="form-control" name="brand" value="{{ old('brand') }}" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Modelis</label>
+                <label class="form-label">{{ __('messages.model') }}</label>
                 <input class="form-control" name="model" value="{{ old('model') }}" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Savininkas</label>
+                <label class="form-label">{{ __('messages.owner') }}</label>
                 <select name="owner_id" class="form-select">
-                    <option value="">-- Nepriskirta --</option>
+                    <option value="">-- {{ __('messages.unassigned') }} --</option>
                     @foreach($owners as $owner)
                         <option value="{{ $owner->id }}" @selected(old('owner_id') == $owner->id)>
                             {{ $owner->name }} {{ $owner->surname }}
@@ -44,8 +44,8 @@
                 </select>
             </div>
 
-            <button class="btn btn-primary">Išsaugoti</button>
-            <a href="{{ route('cars.index') }}" class="btn btn-secondary">Atgal</a>
+            <button class="btn btn-primary">{{ __('messages.save') }}</button>
+            <a href="{{ route('cars.index') }}" class="btn btn-secondary">{{ __('messages.back') }}</a>
         </form>
     </div>
 @endsection

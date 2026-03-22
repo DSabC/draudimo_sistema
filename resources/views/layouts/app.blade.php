@@ -31,9 +31,9 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         <li class="navbar-nav">
-                            <a class="nav-link" href="{{ route('owners.index') }}">Savininkai</a>
+                            <a class="nav-link" href="{{ route('owners.index') }}">{{ __('messages.owners') }}</a>
 
-                            <a class="nav-link" href="{{ route('cars.index') }}">Automobiliai</a>
+                            <a class="nav-link" href="{{ route('cars.index') }}">{{ __('messages.cars') }}</a>
                         </li>
                     </ul>
 
@@ -43,13 +43,13 @@
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a class="nav-link" href="{{ route('login') }}">{{ __('messages.login') }}</a>
                                 </li>
                             @endif
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('messages.register') }}</a>
                                 </li>
                             @endif
                         @else
@@ -62,7 +62,7 @@
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        {{ __('messages.logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -71,6 +71,12 @@
                                 </div>
                             </li>
                         @endguest
+
+                        <li class="navbar-nav">
+                            <a class="nav-link" href="{{ route('lang.switch', ['locale' => 'lt']) }}">LT</a>
+                            <a class="nav-link" href="{{ route('lang.switch', ['locale' => 'en']) }}">EN</a>
+                        </li>
+
                     </ul>
                 </div>
             </div>

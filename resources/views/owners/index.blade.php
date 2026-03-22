@@ -3,10 +3,10 @@
 @section('content')
     <div class="container mt-4">
         <div class="mb-3">
-            <h2>Automobilių savininkai</h2>
+            <h2>{{ __('messages.owners') }}</h2>
             @auth
                 @if(auth()->user()->isAdmin())
-                    <a href="{{ route('owners.create') }}" class="btn btn-success">Pridėti</a>
+                    <a href="{{ route('owners.create') }}" class="btn btn-success">{{ __('messages.add') }}</a>
                 @endif
             @endauth
         </div>
@@ -19,13 +19,13 @@
             <thead class="table-dark">
             <tr>
                 <th>ID</th>
-                <th>Vardas</th>
-                <th>Pavardė</th>
-                <th>Telefono nr.</th>
-                <th>E. paštas</th>
-                <th>Adresas</th>
-                <th>Automobiliai</th>
-                <th>Veiksmai</th>
+                <th>{{ __('messages.name') }}</th>
+                <th>{{ __('messages.surname') }}</th>
+                <th>{{ __('messages.phone') }}</th>
+                <th>{{ __('messages.email') }}</th>
+                <th>{{ __('messages.address') }}</th>
+                <th>{{ __('messages.cars') }}</th>
+                <th>{{ __('messages.actions') }}</th>
             </tr>
             </thead>
 
@@ -47,12 +47,12 @@
                     </td>
                     <td>
                         @if(auth()->user()->isAdmin())
-                            <a href="{{ route('owners.edit', $owner) }}" class="btn btn-warning mb-1">Redaguoti</a>
+                            <a href="{{ route('owners.edit', $owner) }}" class="btn btn-warning mb-1">{{ __('messages.edit') }}</a>
 
-                            <form action="{{ route('owners.destroy', $owner) }}" method="POST" onsubmit="return confirm('Tikrai ištrinti?')">
+                            <form action="{{ route('owners.destroy', $owner) }}" method="POST" onsubmit="return confirm('{{ __('messages.delete_confirm') }}')">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-danger">Trinti</button>
+                                <button class="btn btn-danger">{{ __('messages.delete') }}</button>
                             </form>
                         @endif
                     </td>

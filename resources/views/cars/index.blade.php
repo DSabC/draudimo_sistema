@@ -3,10 +3,10 @@
 @section('content')
     <div class="container mt-4">
         <div class="mb-3">
-            <h2>Automobiliai</h2>
+            <h2>{{ __('messages.cars') }}</h2>
             @auth
                 @if(auth()->user()->isAdmin())
-                    <a href="{{ route('cars.create') }}" class="btn btn-success">Pridėti</a>
+                    <a href="{{ route('cars.create') }}" class="btn btn-success">{{ __('messages.add') }}</a>
                 @endif
             @endauth
         </div>
@@ -19,11 +19,11 @@
             <thead class="table-dark">
             <tr>
                 <th>ID</th>
-                <th>Numeris</th>
-                <th>Markė</th>
-                <th>Modelis</th>
-                <th>Savininkas</th>
-                <th>Veiksmai</th>
+                <th>{{ __('messages.reg_number') }}</th>
+                <th>{{ __('messages.brand') }}</th>
+                <th>{{ __('messages.model') }}</th>
+                <th>{{ __('messages.owner') }}</th>
+                <th>{{ __('messages.actions') }}</th>
             </tr>
             </thead>
 
@@ -38,17 +38,17 @@
                         @if($car->owner)
                             {{ $car->owner->name }} {{ $car->owner->surname }}
                         @else
-                            <span class="text-muted">Nepriskirta</span>
+                            <span class="text-muted">{{ __('messages.unassigned') }}</span>
                         @endif
                     </td>
                     <td>
                         @if(auth()->user()->isAdmin())
-                            <a href="{{ route('cars.edit', $car) }}" class="btn btn-warning mb-1">Redaguoti</a>
+                            <a href="{{ route('cars.edit', $car) }}" class="btn btn-warning mb-1">{{ __('messages.edit') }}</a>
 
-                            <form action="{{ route('cars.destroy', $car) }}" method="POST" class="d-inline" onsubmit="return confirm('Tikrai ištrinti?')">
+                            <form action="{{ route('cars.destroy', $car) }}" method="POST" class="d-inline" onsubmit="return confirm('{{ __('messages.delete_confirm') }}')">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-danger mb-1">Trinti</button>
+                                <button class="btn btn-danger mb-1">{{ __('messages.delete') }}</button>
                             </form>
                         @endif
                     </td>

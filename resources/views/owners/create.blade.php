@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container mt-4">
-        <h2>Pridėti naują savininką:</h2>
+        <h2>{{ __('messages.add_owner') }}:</h2>
 
         @if($errors->any())
             <div class="alert alert-danger">
@@ -18,32 +18,32 @@
             @csrf
 
             <div class="mb-3">
-                <label class="form-label">Vardas</label>
+                <label class="form-label">{{ __('messages.name') }}</label>
                 <input class="form-control" name="name" value="{{ old('name') }}" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Pavardė</label>
+                <label class="form-label">{{ __('messages.surname') }}</label>
                 <input class="form-control" name="surname" value="{{ old('surname') }}" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Telefono nr.</label>
+                <label class="form-label">{{ __('messages.phone') }}</label>
                 <input class="form-control" name="phone" value="{{ old('phone') }}" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">E. paštas</label>
+                <label class="form-label">{{ __('messages.email') }}</label>
                 <input class="form-control" name="email" value="{{ old('email') }}" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Adresas</label>
+                <label class="form-label">{{ __('messages.address') }}</label>
                 <input class="form-control" name="address" value="{{ old('address') }}" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Automobiliai</label>
+                <label class="form-label">{{ __('messages.cars') }}</label>
 
                 @forelse($cars as $car)
                     <div class="form-check">
@@ -60,11 +60,11 @@
                         </label>
                     </div>
                 @empty
-                    <div class="text-muted">Nėra automobilių</div>
+                    <div class="text-muted">{{ __('messages.no_cars_available') }}</div>
                 @endforelse
             </div>
-            <button class="btn btn-primary mt-3">Išsaugoti</button>
-            <a href="{{ route('owners.index') }}" class="btn btn-secondary mt-3">Atgal</a>
+            <button class="btn btn-primary mt-3">{{ __('messages.save') }}</button>
+            <a href="{{ route('owners.index') }}" class="btn btn-secondary mt-3">{{ __('messages.back') }}</a>
         </form>
     </div>
 @endsection

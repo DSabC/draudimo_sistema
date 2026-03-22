@@ -15,6 +15,14 @@ Route::get('/home', function () {
 
 Auth::routes();
 
+Route::get('/lang/{locale}', function ($locale) {
+    if (in_array($locale, ['lt', 'en'])) {
+        session(['locale' => $locale]);
+    }
+
+    return redirect()->back();
+})->name('lang.switch');
+
 Route::middleware('auth')->group(function () {
 
     Route::get('/owners', [OwnerController::class, 'index'])->name('owners.index');
