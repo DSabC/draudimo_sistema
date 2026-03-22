@@ -4,7 +4,11 @@
     <div class="container mt-4">
         <div class="mb-3">
             <h2>Automobilių savininkai</h2>
-            <a href="{{ route('owners.create') }}" class="btn btn-success">Pridėti</a>
+            @auth
+                @if(auth()->user()->isAdmin())
+                    <a href="{{ route('owners.create') }}" class="btn btn-success">Pridėti</a>
+                @endif
+            @endauth
         </div>
 
         @if(session('success'))
@@ -42,13 +46,15 @@
                         @endforeach
                     </td>
                     <td>
-                        <a href="{{ route('owners.edit', $owner) }}" class="btn btn-warning mb-1">Redaguoti</a>
+                        @if(auth()->user()->isAdmin())
+                            <a href="{{ route('owners.edit', $owner) }}" class="btn btn-warning mb-1">Redaguoti</a>
 
-                        <form action="{{ route('owners.destroy', $owner) }}" method="POST" onsubmit="return confirm('Tikrai ištrinti?')">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-danger">Trinti</button>
-                        </form>
+                            <form action="{{ route('owners.destroy', $owner) }}" method="POST" onsubmit="return confirm('Tikrai ištrinti?')">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger">Trinti</button>
+                            </form>
+                        @endif
                     </td>
                 </tr>
             @endforeach

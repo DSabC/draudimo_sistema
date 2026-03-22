@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'password' => 'password',
+            'is_admin' => true,
         ]);
 
         Owner::factory(10)->create()->each(function ($owner) {

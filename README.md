@@ -6,11 +6,14 @@ Laravel project for managing car owners and cars.
 
 - Full CRUD for owners
 - Full CRUD for cars
-- One owner can have many cars (`cars.owner_id`)
+- One owner can have many cars
 - When creating an owner, only unassigned cars are shown
 - When editing an owner, shown cars are:
   - unassigned cars
   - cars already assigned to that owner
+- There are 2 user types: 
+  - admin - can create, edit and delete
+  - non admin - can only see users and cars
 
 ## Database
 
@@ -34,6 +37,10 @@ Laravel project for managing car owners and cars.
 - `owner_id`
 - `created_at`
 - `updated_at`
+
+### `users`
+- Laravel default users table
+- additional field: `is_admin`
 
 ## Running the project
 
