@@ -14,6 +14,9 @@ Laravel project for managing car owners and cars.
 - There are 2 user types: 
   - admin - can create, edit and delete
   - non admin - can only see users and cars
+- Change between 2 languages:
+  - LT - Lithuanian
+  - EN - English
 
 ## Database
 
