@@ -6,6 +6,7 @@ use App\Models\Car;
 use App\Models\Owner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\OwnerRequest;
 
 class OwnerController extends Controller
 {
@@ -32,7 +33,7 @@ class OwnerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(OwnerRequest $request)
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -86,7 +87,7 @@ class OwnerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Owner $owner)
+    public function update(OwnerRequest $request, Owner $owner)
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],

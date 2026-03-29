@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Car;
 use App\Models\Owner;
 use Illuminate\Http\Request;
+use App\Http\Requests\CarRequest;
 
 class CarController extends Controller
 {
@@ -29,7 +30,7 @@ class CarController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CarRequest $request)
     {
         $data = $request->validate([
             'reg_number' => ['required', 'string', 'max:255'],
@@ -63,7 +64,7 @@ class CarController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Car $car)
+    public function update(CarRequest $request, Car $car)
     {
         $data = $request->validate([
             'reg_number' => ['required', 'string', 'max:255'],
