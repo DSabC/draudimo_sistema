@@ -14,7 +14,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('cars.update', $car) }}" class="mt-3">
+        <form method="POST" action="{{ route('cars.update', $car) }}" enctype="multipart/form-data" class="mt-3">
             @csrf
             @method('PUT')
 
@@ -45,8 +45,32 @@
                 </select>
             </div>
 
+            <div class="mb-3">
+                <label class="form-label">Car photos</label>
+                <input type="file" name="photos[]" class="form-control" multiple>
+            </div>
+
             <button class="btn btn-primary">{{ __('messages.save') }}</button>
             <a href="{{ route('cars.index') }}" class="btn btn-secondary">{{ __('messages.back') }}</a>
         </form>
+
+        @if($car->photos->count())
+            <hr class="my-4">
+            <h4>Car photos</h4>
+
+            <div class="row mb-3">
+                @foreach($car->photos as $photo)
+                    <div class="col-md-3 mb-3">
+                        <img src="{{ asset('storage/' . $photo->path) }}" class="img-fluid rounded border mb-2" alt="Car photo">
+
+                        <form method="POST" action="{{ route('cars.photos.destroy', $photo) }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm">Delete photo</button>
+                        </form>
+                    </div>
+                @endforeach
+            </div>
+        @endif
     </div>
 @endsection

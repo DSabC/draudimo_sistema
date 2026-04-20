@@ -6,6 +6,8 @@ use App\Models\Car;
 use App\Models\Owner;
 use Illuminate\Http\Request;
 use App\Http\Requests\CarRequest;
+use Illuminate\Support\Facades\Storage;
+use App\Models\CarPhoto;
 
 class CarController extends Controller
 {
@@ -57,6 +59,7 @@ class CarController extends Controller
      */
     public function edit(Car $car)
     {
+        $car->load('photos');
         $owners = Owner::orderBy('name')->get();
         return view('cars.edit', compact('car', 'owners'));
     }
@@ -75,6 +78,16 @@ class CarController extends Controller
 
         $car->update($data);
 
+        if(request()->hasFile('photos')) {
+            foreach(request()->file('photos') as $photo) {
+                $path = $photo->store('cars', 'public');
+
+                $car->photos()->create([
+                    'path' => $path,
+                ]);
+            }
+        }
+
         return redirect()->route('cars.index');
     }
 
@@ -85,5 +98,13 @@ class CarController extends Controller
     {
         $car->delete();
         return redirect()->route('cars.index');
+    }
+
+    public function destroyPhoto(CarPhoto $carPhoto)
+    {
+        Storage::disk('public')->delete($carPhoto->path);
+        $carPhoto->delete();
+
+        return redirect()->back();
     }
 }

@@ -26,6 +26,8 @@ class CarRequest extends FormRequest
             'brand' => 'required|string|max:50',
             'model' => 'required|string|max:50',
             'owner_id' => 'nullable|exists:owners,id',
+            'photos' => ['nullable', 'array'],
+            'photos.*' => ['image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
         ];
     }
 
