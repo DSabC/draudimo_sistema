@@ -17,6 +17,7 @@ Laravel project for managing car owners and cars.
 - Change between 2 languages:
   - LT - Lithuanian
   - EN - English
+- Add photos to cars in edit tab
 
 ## Database
 
