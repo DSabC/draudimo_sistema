@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 class Car extends Model
 {
     use HasFactory;
@@ -12,11 +13,13 @@ class Car extends Model
         'reg_number', 'brand', 'model', 'owner_id'
     ];
 
-    public function owner(){
+    public function owner()
+    {
         return $this->belongsTo(Owner::class);
     }
 
-    public function photos(){
+    public function photos()
+    {
         return $this->hasMany(CarPhoto::class);
     }
 }

@@ -5,9 +5,9 @@
         <div class="mb-3">
             <h2>{{ __('messages.cars') }}</h2>
             @auth
-                @if(auth()->user()->isAdmin())
+                @can('create', App\Models\Car::class)
                     <a href="{{ route('cars.create') }}" class="btn btn-success">{{ __('messages.add') }}</a>
-                @endif
+                @endcan
             @endauth
         </div>
 
@@ -42,15 +42,17 @@
                         @endif
                     </td>
                     <td>
-                        @if(auth()->user()->isAdmin())
+                        @can('update', $car)
                             <a href="{{ route('cars.edit', $car) }}" class="btn btn-warning mb-1">{{ __('messages.edit') }}</a>
+                        @endcan
 
+                        @can('delete', $car)
                             <form action="{{ route('cars.destroy', $car) }}" method="POST" class="d-inline" onsubmit="return confirm('{{ __('messages.delete_confirm') }}')">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-danger mb-1">{{ __('messages.delete') }}</button>
                             </form>
-                        @endif
+                        @endcan
                     </td>
                 </tr>
             @endforeach

@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    private const DEFAULT_USER_ROLE = 'regular';
+
     /**
      * Run the migrations.
      */
@@ -18,7 +20,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->boolean('is_admin')->default(false);
+            $table->string('role')->default(self::DEFAULT_USER_ROLE);
             $table->timestamps();
         });
 

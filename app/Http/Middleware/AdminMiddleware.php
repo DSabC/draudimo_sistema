@@ -15,11 +15,11 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!$request->user()){
+        if (! $request->user()) {
             return redirect()->route('login');
         }
 
-        if(!$request->user()->isAdmin()){
+        if (! $request->user()->isAdmin()) {
             abort(403);
         }
 

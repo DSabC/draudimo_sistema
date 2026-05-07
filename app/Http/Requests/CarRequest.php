@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Car;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CarRequest extends FormRequest
@@ -11,7 +12,17 @@ class CarRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()?->isAdmin() ?? false;
+        if (! $this->user()) {
+            return false;
+        }
+
+        $car = $this->route('car');
+
+        if ($car instanceof Car) {
+            return $this->user()->can('update', $car);
+        }
+
+        return $this->user()->can('create', Car::class);
     }
 
     /**

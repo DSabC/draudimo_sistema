@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Owner;
 use Illuminate\Foundation\Http\FormRequest;
 
 class OwnerRequest extends FormRequest
@@ -11,7 +12,17 @@ class OwnerRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()?->isAdmin() ?? false;
+        if (! $this->user()) {
+            return false;
+        }
+
+        $owner = $this->route('owner');
+
+        if ($owner instanceof Owner) {
+            return $this->user()->can('update', $owner);
+        }
+
+        return $this->user()->can('create', Owner::class);
     }
 
     /**

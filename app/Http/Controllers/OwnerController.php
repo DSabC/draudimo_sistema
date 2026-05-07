@@ -10,12 +10,25 @@ use App\Http\Requests\OwnerRequest;
 
 class OwnerController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Owner::class, 'owner');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $owners = Owner::with('cars')->orderBy('id', 'desc')->get();
+        $user = request()->user();
+        $ownersQuery = Owner::with('cars')->orderBy('id', 'desc');
+
+        if (! $user->isAdmin() && ! $user->isReader()) {
+            $ownersQuery->where('user_id', $user->id);
+        }
+
+        $owners = $ownersQuery->get();
+
         return view('owners.index', compact('owners'));
     }
 
@@ -24,7 +37,18 @@ class OwnerController extends Controller
      */
     public function create()
     {
-        $cars = Car::whereNull('owner_id')->orderBy('brand')->get();
+        $user = request()->user();
+        $carsQuery = Car::query()->orderBy('brand');
+
+        if ($user->isAdmin()) {
+            $carsQuery->whereNull('owner_id');
+        } else {
+            $carsQuery->whereHas('owner', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            });
+        }
+
+        $cars = $carsQuery->get();
 
         return view('owners.create', compact('cars'));
 
@@ -45,13 +69,16 @@ class OwnerController extends Controller
             'cars.*' => ['integer', 'exists:cars,id'],
         ]);
 
-        DB::transaction(function () use ($data) {
+        $this->ensureCarsAreEditable($data['cars'] ?? [], $request->user());
+
+        DB::transaction(function () use ($data, $request) {
             $owner = Owner::create([
                 'name' => $data['name'],
                 'surname' => $data['surname'],
                 'phone' => $data['phone'],
                 'email' => $data['email'],
                 'address' => $data['address'],
+                'user_id' => $request->user()->id,
             ]);
 
             if (!empty($data['cars'])) {
@@ -75,10 +102,24 @@ class OwnerController extends Controller
      */
     public function edit(Owner $owner)
     {
-        $cars = Car::where(function ($query) use ($owner) {
-            $query->whereNull('owner_id')
-                ->orWhere('owner_id', $owner->id);
-        })->orderBy('brand')->get();
+        $user = request()->user();
+        $carsQuery = Car::query()->orderBy('brand');
+
+        if ($user->isAdmin()) {
+            $carsQuery->where(function ($query) use ($owner) {
+                $query->whereNull('owner_id')
+                    ->orWhere('owner_id', $owner->id);
+            });
+        } else {
+            $carsQuery->where(function ($query) use ($owner, $user) {
+                $query->where('owner_id', $owner->id)
+                    ->orWhereHas('owner', function ($ownerQuery) use ($user) {
+                        $ownerQuery->where('user_id', $user->id);
+                    });
+            });
+        }
+
+        $cars = $carsQuery->get();
         $selectedCars = $owner->cars->pluck('id')->toArray();
 
         return view('owners.edit', compact('owner', 'cars', 'selectedCars'));
@@ -98,6 +139,8 @@ class OwnerController extends Controller
             'cars' => ['nullable', 'array'],
             'cars.*' => ['integer', 'exists:cars,id'],
         ]);
+
+        $this->ensureCarsAreEditable($data['cars'] ?? [], $request->user());
 
         DB::transaction(function () use ($data, $owner) {
             $owner->update([
@@ -125,5 +168,20 @@ class OwnerController extends Controller
     {
         $owner->delete();
         return redirect()->route('owners.index');
+    }
+
+    private function ensureCarsAreEditable(array $carIds, $user): void
+    {
+        if ($user->isAdmin() || empty($carIds)) {
+            return;
+        }
+
+        $editableCarsCount = Car::whereIn('id', $carIds)
+            ->whereHas('owner', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->count();
+
+        abort_if($editableCarsCount !== count($carIds), 403);
     }
 }
